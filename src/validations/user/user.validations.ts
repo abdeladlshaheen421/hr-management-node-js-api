@@ -1,5 +1,6 @@
 import { body } from "express-validator";
-import { roleTypeEnum } from "../../interfaces/User.interface";
+import { roleTypeEnum, UserInterface } from "../../interfaces/User.interface";
+import { findUserByEmail } from "../../services/user.service";
 
 export const validateLoginData = [
   body("email").isEmail().withMessage("please enter a valid Email Address"),
@@ -11,7 +12,13 @@ export const validateCreateUserData = [
     .isString()
     .isLength({ min: 2 })
     .withMessage("please name is required with 2 charcters at lease"),
-  body("email").isEmail().withMessage("please enter a valid Email Address"),
+  body("email")
+    .isEmail()
+    .withMessage("please enter a valid Email Address")
+    .custom(async (value: string, { req }) => {
+      const user: UserInterface | null = await findUserByEmail(value);
+      if (user) throw new Error("Email already in use");
+    }),
   body("password")
     .isStrongPassword({
       minLength: 8,
@@ -37,7 +44,12 @@ export const validateUpdateUserData = [
   body("email")
     .optional()
     .isEmail()
-    .withMessage("please enter a valid Email Address"),
+    .withMessage("please enter a valid Email Address")
+    .custom(async (value: string, { req }) => {
+      const user: UserInterface | null = await findUserByEmail(value);
+      if (user && req.params && req.params.id !== user.id)
+        throw new Error("Email already in use");
+    }),
   body("password")
     .optional()
     .isStrongPassword({
@@ -53,3 +65,5 @@ export const validateUpdateUserData = [
     .isIn([roleTypeEnum.HR, roleTypeEnum.NORMAL])
     .withMessage("please enter valid group (HR or NORMAL)"),
 ];
+
+const checkEmailExistance = [];

@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import {
   CreateUserInterface,
-  LoginUserReponseInterface,
-  PaginationCriteriaInterface,
   roleTypeEnum,
   TokenDecodedToken,
   UpdateUserInterface,
   UserInterface,
-  UserResponse,
-  UsersResponse,
 } from "../interfaces/User.interface";
 import {
   createEmployee,
@@ -17,7 +13,6 @@ import {
   updateEmployee,
 } from "../services/user.service";
 import { comparePasswords, createError, generateToken } from "../utils/Auth";
-import { group } from "console";
 
 export async function login(
   req: Request,

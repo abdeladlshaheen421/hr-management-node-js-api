@@ -85,3 +85,5 @@ app.use(
 app.use((req: Request, res: Response, next: NextFunction): Response => {
   return res.status(404).json({ message: "Route Not Found" });
 });
+
+export default app;

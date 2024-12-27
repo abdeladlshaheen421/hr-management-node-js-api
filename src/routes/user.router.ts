@@ -11,6 +11,12 @@ import { roleTypeEnum } from "../interfaces/User.interface";
 
 const UserRouter = (app: Application) => {
   app.post("/auth/login", validateLoginData, validateMiddleware, login);
+  app.post(
+    "/auth/register",
+    validateCreateUserData,
+    validateMiddleware,
+    create
+  ); //only used to test
   app.get("/users", authMiddleware(roleTypeEnum.HR), findAll);
   app.post(
     "/users/",
