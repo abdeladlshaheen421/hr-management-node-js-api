@@ -1,5 +1,4 @@
-import { Dialect } from "sequelize";
-
+require("dotenv").config();
 const {
   DATABASE_USER,
   DATABASE_PASS,
@@ -8,13 +7,13 @@ const {
   DATABASE_DIALECT,
 } = process.env;
 
-const databaseConfig: Object = {
+const databaseConfig = {
   development: {
     username: DATABASE_USER,
     password: DATABASE_PASS,
     database: DATABASE_NAME,
     host: DATABASE_HOST,
-    dialect: DATABASE_DIALECT as Dialect,
+    dialect: DATABASE_DIALECT || "mysql",
   },
 };
-export default databaseConfig;
+module.exports = databaseConfig;
