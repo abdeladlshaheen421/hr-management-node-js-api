@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize";
+import { hashPassword } from "../utils/Auth";
 
 const User = sequelize.define(
   "User",
@@ -25,7 +26,20 @@ const User = sequelize.define(
       allowNull: false,
     },
   },
-  { hooks: {}, paranoid: true, timestamps: true, tableName: "users" }
+  {
+    hooks: {
+      beforeCreate: async (instance: any, options: any) => {
+        instance.password = await hashPassword(instance.password);
+      },
+      beforeUpdate: async (instance: any, options: any) => {
+        if (instance.changed("password"))
+          instance.password = await hashPassword(instance.password);
+      },
+    },
+    paranoid: true,
+    timestamps: true,
+    tableName: "users",
+  }
 );
 
 export default User;

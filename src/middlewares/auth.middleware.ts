@@ -11,7 +11,7 @@ export const authMiddleware = (requiredRole?: roleTypeEnum) => {
       }
       const token = authHeader.split(" ")[1];
       const user: TokenDecodedToken = <TokenDecodedToken>verifyToken(token);
-      if (requiredRole && user?.role !== requiredRole) {
+      if (requiredRole && user?.group !== requiredRole) {
         return res.status(403).json({ message: "You don't have permissions." });
       }
       Object.assign(req, { user });
@@ -21,5 +21,3 @@ export const authMiddleware = (requiredRole?: roleTypeEnum) => {
     }
   };
 };
-
-authMiddleware(roleTypeEnum.ADMIN);

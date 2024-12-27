@@ -11,7 +11,7 @@ export const comparePasswords = async (
   password: string,
   hashedPassword: string
 ) => {
-  return await bcrypt.compare(password, hashedPassword);
+  return await bcrypt.compare(password + PASSWORD_PEPPER, hashedPassword);
 };
 
 export const generateToken = (user: TokenDecodedToken) => {
@@ -28,8 +28,14 @@ export const verifyToken = (token: string) => {
   }
 };
 
+export class CustomError extends Error {
+  statusCode: number;
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 export const createError = (message: string, statusCode: number) => {
-  const error = new Error(message);
-  Object.assign(error, { statusCode });
+  const error = new CustomError(message, statusCode);
   return error;
 };

@@ -3,23 +3,58 @@ export interface LoginRequestBodyInterface {
   password?: Date;
 }
 export enum roleTypeEnum {
-  ADMIN = "admin",
+  HR = "HR",
+  NORMAL = "NORMAL",
 }
 export interface UserInterface {
   id?: string;
-  username?: string;
+  name?: string;
   email?: string;
   password?: string;
-  role: roleTypeEnum;
+  group: roleTypeEnum;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 }
 export interface LoginUserReponseInterface {
   id: string;
   email: string;
-  username: string;
-  role: roleTypeEnum;
+  name: string;
+  group: roleTypeEnum;
 }
 
 export interface TokenDecodedToken {
   id: string;
-  role: roleTypeEnum;
+  group: roleTypeEnum;
+}
+
+export interface CreateUserInterface {
+  name: string;
+  email: string;
+  password: string;
+  group: roleTypeEnum;
+}
+
+export interface UpdateUserInterface {
+  name?: string;
+  email?: string;
+  password?: string;
+  group?: roleTypeEnum;
+}
+
+export interface UserResponse {
+  id?: string;
+  name?: string;
+  email?: string;
+  group?: roleTypeEnum;
+  createdAt?: string;
+}
+export interface UsersResponse {
+  rows: UserResponse[];
+  count: number;
+}
+
+export interface PaginationCriteriaInterface {
+  limit: string;
+  page: string;
 }

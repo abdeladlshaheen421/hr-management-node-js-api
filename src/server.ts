@@ -7,6 +7,7 @@ dotenv.config();
 import helmet from "helmet";
 import sequelize from "./config/sequelize";
 import UserRouter from "./routes/user.router";
+import { CustomError } from "./utils/Auth";
 
 const { SERVER_PORT, ENV, FRONTEND_URL } = process.env;
 const app = express();
@@ -50,7 +51,7 @@ app.get(
     next: NextFunction
   ): Promise<Response> => {
     return res.status(200).json({
-      message: "welcome to real estate api",
+      message: "welcome to HR management api",
     });
   }
 );
@@ -62,16 +63,25 @@ UserRouter(app);
 
 // Error handler middleware
 app.use(
-  (error: Error, req: Request, res: Response, next: NextFunction): Response => {
+  (
+    error: CustomError,
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Response => {
     if (ENV == "development")
-      return res.status(500).json({ message: error.message });
+      return res
+        .status(error.statusCode ?? 500)
+        .json({ message: error.message });
     else {
-      return res.status(500).json({ message: "Something Went Wrong" });
+      return res
+        .status(error.statusCode ?? 500)
+        .json({ message: "Something Went Wrong" });
     }
   }
 );
 
 // notFound endpoint middleware
 app.use((req: Request, res: Response, next: NextFunction): Response => {
-  return res.status(404).json({ message: "Not Found" });
+  return res.status(404).json({ message: "Route Not Found" });
 });
