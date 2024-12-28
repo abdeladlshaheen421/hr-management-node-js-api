@@ -30,14 +30,17 @@
 
 ### `npm i` or `npm install`
 
-2- to build the project
+2- create `.env` file like .env-example
+FRONTEND_URL should be like http://localhost:3000 to enable cors origin for frontend
+
+3- to build the project
 
 ### `npm run build`
 
-3- to test the project
+4- to test the project
 
 ### `npm run test`
 
-4- to run the project
+5- to run the project
 
-### `npm start` or `npm run start`
+### `npm start` or `npm run start` or `npm run dev` in development
