@@ -41,7 +41,6 @@ export async function login(
       sameSite: "strict",
     });
     res.status(200).json({
-      message: "login Successfully",
       token: token,
       group: user.group,
     });

@@ -59,7 +59,9 @@ export const validateUpdateUserData = [
       minLowercase: 1,
       minSymbols: 1,
     })
-    .withMessage("please enter a valid Password"),
+    .withMessage(
+      "please enter a valid Password at lease (8 character, 1 uppercase, 1 lowercase, 1 number, 1 special character"
+    ),
   body("group")
     .optional()
     .isIn([roleTypeEnum.HR, roleTypeEnum.NORMAL])
